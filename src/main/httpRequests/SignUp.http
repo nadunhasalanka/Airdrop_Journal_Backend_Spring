@@ -1,0 +1,19 @@
+### GET request to example server
+POST http://localhost:3002/api/auth/signup
+Content-Type: Application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "password": "Password123!"
+}
+###
+
+POST http://localhost:3002/api/auth/login
+Content-Type: Application/json
+
+{
+    "email": "john.doe@example.com",
+    "password": "Password123!"
+}
