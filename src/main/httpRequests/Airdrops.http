@@ -1,0 +1,53 @@
+
+@accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc1NTc5NTU1OSwiZXhwIjoxNzU2NDAwMzU5fQ.EruZVbBFnChdusa_ho9reKBxiCgg8Y5xKefBXNspOpw
+
+
+### GET request to example server
+POST http://localhost:3002/api/airdrops
+Authorization: Bearer {{accessToken}}
+Content-Type: Application/json
+
+{
+  "name": "My First Spring Airdrop",
+  "description": "This is a test airdrop created from Spring Boot.",
+  "officialLink": "https://example.com"
+}
+###
+
+GET http://localhost:3002/api/airdrops
+Authorization: Bearer {{accessToken}}
+
+###
+
+
+GET http://localhost:3002/api/airdrops/68a74ee1e12a6a3d37049839
+Authorization: Bearer {{accessToken}}
+
+###
+
+
+
+#UPDATE Airdrop:
+#Method: PUT
+#URL: http://localhost:3002/api/airdrops/<id_of_an_airdrop_you_created>
+#Body: Send a JSON body with the fields you want to change (e.g., {"name": "Updated Airdrop Name", "description": "New desc.", "officialLink": "https://new.com"}).
+#Result: The airdrop with the updated information.
+PUT http://localhost:3002/api/airdrops/68a74ee1e12a6a3d37049839
+Authorization: Bearer {{accessToken}}
+Content-Type: Application/json
+
+{
+  "name": "Updated Airdrop Name",
+  "description": "New description for the airdrop.",
+  "officialLink": "https://new-link.com"
+}
+
+###
+
+#DELETE Airdrop:
+#Method: DELETE
+#URL: http://localhost:3002/api/airdrops/<id_of_an_airdrop_you_created>
+DELETE http://localhost:3002/api/airdrops/68a74ee1e12a6a3d37049839
+Authorization: Bearer {{accessToken}}
+
+###
