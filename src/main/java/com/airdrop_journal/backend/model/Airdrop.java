@@ -1,4 +1,4 @@
-package model;
+package com.airdrop_journal.backend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
