@@ -2,8 +2,11 @@ package com.airdrop_journal.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
+@EnableMongoRepositories(basePackages = {"com.airdrop_journal.backend.repositories"})
 public class BackendApplication {
 
 	public static void main(String[] args) {
