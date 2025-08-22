@@ -1,0 +1,34 @@
+
+@accessToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc1NTgzMTY0NiwiZXhwIjoxNzU2NDM2NDQ2fQ.9oduGSIJI-U2LopPJfATppOexUDmZg38dctOJdunsOA
+
+###
+# CREATE A NEW TAG
+POST http://localhost:3002/api/tags
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "High Priority",
+  "color": "#EF4444"
+}
+
+###
+# GET ALL TAGS FOR THE CURRENT USER
+GET http://localhost:3002/api/tags
+Authorization: Bearer {{accessToken}}
+
+###
+# UPDATE A TAG
+PUT http://localhost:3002/api/tags/68a7dd71027a0a9c5abb3aa8
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Very High Priority",
+  "color": "#DC2626"
+}
+
+###
+# DELETE A TAG
+DELETE http://localhost:3002/api/tags/68a7dd71027a0a9c5abb3aa8
+Authorization: Bearer {{accessToken}}
