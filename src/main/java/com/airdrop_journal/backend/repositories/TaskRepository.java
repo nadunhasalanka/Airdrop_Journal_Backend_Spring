@@ -13,4 +13,6 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     List<Task> findByUserId(String userId);
     Optional<Task> findByIdAndUserId(String id, String userId);
     void deleteByAirdropIdAndUserId(String airdropId, String userId);
+
+    boolean existsByIdAndUserId(String taskId, String id);
 }
