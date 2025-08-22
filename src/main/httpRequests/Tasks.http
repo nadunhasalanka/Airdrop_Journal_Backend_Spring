@@ -1,7 +1,6 @@
 
 @accessToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc1NTgyNzg2MywiZXhwIjoxNzU2NDMyNjYzfQ.Z0dI5nOItGL__6j0xjheZQzTOB0wVhB7mtyxVuSDw7c
 
-
 ###
 # CREATE A NEW TASK
 POST http://localhost:3002/api/tasks
