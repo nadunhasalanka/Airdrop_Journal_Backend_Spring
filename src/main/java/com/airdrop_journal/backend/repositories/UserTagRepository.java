@@ -13,4 +13,6 @@ public interface UserTagRepository extends MongoRepository<UserTag, String> {
 
     List<UserTag> findByUserId(String userId);
     Optional<UserTag> findByNameAndUserId(String name, String userId);
+
+    Optional<Object> findByIdAndUserId(String tagId, String id);
 }
