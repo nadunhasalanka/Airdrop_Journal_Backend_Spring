@@ -1,0 +1,53 @@
+
+@accessToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc1NTgyNzg2MywiZXhwIjoxNzU2NDMyNjYzfQ.Z0dI5nOItGL__6j0xjheZQzTOB0wVhB7mtyxVuSDw7c
+
+
+###
+# CREATE A NEW TASK
+POST http://localhost:3002/api/tasks
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "Complete Galxe Campaign",
+  "project": "ZetaChain",
+  "description": "Finish all social and on-chain tasks for the week 3 campaign.",
+  "priority": "HIGH",
+  "category": "TESTNET",
+  "difficulty": "MEDIUM",
+  "isDaily": false
+}
+
+###
+# GET ALL TASKS FOR THE CURRENT USER
+GET http://localhost:3002/api/tasks
+Authorization: Bearer {{accessToken}}
+
+###
+# GET A SINGLE TASK BY ITS ID
+GET http://localhost:3002/api/tasks/68a7ceb47c70d2c47db69558
+Authorization: Bearer {{accessToken}}
+
+###
+# UPDATE AN EXISTING TASK
+PUT http://localhost:3002/api/tasks/<id_of_task_you_created>
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "Complete Galxe Campaign (UPDATED)",
+  "project": "ZetaChain",
+  "description": "Finish all social and on-chain tasks for the week 3 campaign. Added a note about the deadline.",
+  "priority": "HIGH",
+  "category": "TESTNET",
+  "difficulty": "MEDIUM",
+  "isDaily": false,
+  "completed": true,
+  "notes": "Deadline is tomorrow!"
+}
+
+
+###
+# DELETE A TASK
+DELETE http://localhost:3002/api/tasks/68a7ceb47c70d2c47db69558
+Authorization: Bearer {{accessToken}}
