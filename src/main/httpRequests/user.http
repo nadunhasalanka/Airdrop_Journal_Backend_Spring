@@ -1,0 +1,29 @@
+
+@accessToken = <YOUR_JWT_TOKEN>
+@password = <YOUR_PLAIN_TEXT_PASSWORD>
+
+###
+# GET MY USER PROFILE
+GET http://localhost:3002/api/users/profile
+Authorization: Bearer {{accessToken}}
+
+###
+# UPDATE MY USER PROFILE
+PUT http://localhost:3002/api/users/profile
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Johnathan",
+  "bio": "Just a crypto enthusiast learning Spring Boot!"
+}
+
+###
+# DEACTIVATE MY ACCOUNT
+DELETE http://localhost:3002/api/users/account
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "confirmPassword": "{{password}}"
+}
