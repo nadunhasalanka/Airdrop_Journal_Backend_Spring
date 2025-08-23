@@ -7,12 +7,17 @@ import com.airdrop_journal.backend.dtos.auth.SignUpRequest;
 import com.airdrop_journal.backend.dtos.user.UserResponse;
 import com.airdrop_journal.backend.mappers.UserMapper;
 import com.airdrop_journal.backend.model.User;
+import com.airdrop_journal.backend.model.UserTag;
 import com.airdrop_journal.backend.repositories.UserRepository;
+import com.airdrop_journal.backend.repositories.UserTagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class AuthenticationService {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserTagRepository userTagRepository;
 
     public UserResponse signup(SignUpRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -42,6 +48,8 @@ public class AuthenticationService {
                 .build();
 
         User savedUser = userRepository.save(user);
+
+        createDefaultTagsForUser(savedUser);
 
         String jwtToken = jwtService.generateToken(savedUser);
 
@@ -72,6 +80,18 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .user(userMapper.toUserResponse(user))
                 .build();
+    }
+
+    private void createDefaultTagsForUser(User user) {
+        List<UserTag> defaultTags = List.of(
+                UserTag.builder().name("layer 2").color("#8B5CF6").isDefault(true).userId(user.getId()).build(),
+                UserTag.builder().name("defi").color("#FF6B35").isDefault(true).userId(user.getId()).build(),
+                UserTag.builder().name("testnet").color("#10B981").isDefault(true).userId(user.getId()).build(),
+                UserTag.builder().name("mainnet").color("#F59E0B").isDefault(true).userId(user.getId()).build(),
+                UserTag.builder().name("high priority").color("#EF4444").isDefault(true).userId(user.getId()).build()
+                // Add any other default tags here
+        );
+        userTagRepository.saveAll(defaultTags);
     }
 
 }
