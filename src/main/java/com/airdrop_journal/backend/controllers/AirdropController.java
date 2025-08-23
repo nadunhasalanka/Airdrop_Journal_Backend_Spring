@@ -3,6 +3,7 @@ package com.airdrop_journal.backend.controllers;
 
 import com.airdrop_journal.backend.dtos.airdrop.AirdropRequest;
 import com.airdrop_journal.backend.dtos.airdrop.AirdropResponse;
+import com.airdrop_journal.backend.dtos.airdrop.AirdropStatsResponse;
 import com.airdrop_journal.backend.model.User;
 import com.airdrop_journal.backend.services.AirdropService;
 import jakarta.validation.Valid;
@@ -30,7 +31,6 @@ public class AirdropController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // NEW ENDPOINT: GET /api/airdrops
     @GetMapping
     public ResponseEntity<List<AirdropResponse>> getMyAirdrops(
             @AuthenticationPrincipal User currentUser
@@ -38,7 +38,6 @@ public class AirdropController {
         return ResponseEntity.ok(airdropService.getAirdropsForUser(currentUser));
     }
 
-    // NEW ENDPOINT: GET /api/airdrops/{id}
     @GetMapping("/{id}")
     public ResponseEntity<AirdropResponse> getAirdropById(
             @PathVariable String id,
@@ -47,7 +46,6 @@ public class AirdropController {
         return ResponseEntity.ok(airdropService.getAirdropById(id, currentUser));
     }
 
-    // NEW ENDPOINT: PUT /api/airdrops/{id}
     @PutMapping("/{id}")
     public ResponseEntity<AirdropResponse> updateAirdrop(
             @PathVariable String id,
@@ -57,7 +55,6 @@ public class AirdropController {
         return ResponseEntity.ok(airdropService.updateAirdrop(id, request, currentUser));
     }
 
-    // NEW ENDPOINT: DELETE /api/airdrops/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAirdrop(
             @PathVariable String id,
@@ -65,5 +62,12 @@ public class AirdropController {
     ) {
         airdropService.deleteAirdrop(id, currentUser);
         return ResponseEntity.noContent().build(); // Standard response for a successful delete
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<AirdropStatsResponse> getAirdropStats(
+            @AuthenticationPrincipal User currentUser
+    ) {
+        return ResponseEntity.ok(airdropService.getAirdropStats(currentUser));
     }
 }

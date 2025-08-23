@@ -2,6 +2,7 @@ package com.airdrop_journal.backend.services;
 
 import com.airdrop_journal.backend.dtos.airdrop.AirdropRequest;
 import com.airdrop_journal.backend.dtos.airdrop.AirdropResponse;
+import com.airdrop_journal.backend.dtos.airdrop.AirdropStatsResponse;
 import com.airdrop_journal.backend.mappers.AirdropMapper;
 import com.airdrop_journal.backend.model.Airdrop;
 import com.airdrop_journal.backend.model.User;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,6 +89,20 @@ public class AirdropService {
         // taskRepository.deleteByAirdropIdAndUserId(airdropId, currentUser.getId());
 
         airdropRepository.deleteById(airdropId);
+    }
+
+    public AirdropStatsResponse getAirdropStats(User currentUser) {
+        String userId = currentUser.getId();
+
+        Map<String, Long> statsByStatus = new HashMap<>();
+
+        statsByStatus.put("Farming", airdropRepository.countByUserIdAndStatus(userId, "Farming"));
+        statsByStatus.put("Completed", airdropRepository.countByUserIdAndStatus(userId, "Completed"));
+        statsByStatus.put("Potential", airdropRepository.countByUserIdAndStatus(userId, "Potential"));
+
+        long totalAirdrops = airdropRepository.countByUserId(userId);
+
+        return new AirdropStatsResponse(totalAirdrops, statsByStatus);
     }
 
 }

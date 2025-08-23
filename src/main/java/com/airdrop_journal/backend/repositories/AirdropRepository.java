@@ -14,4 +14,7 @@ public interface AirdropRepository extends MongoRepository<Airdrop, String> {
     Optional<Airdrop> findByIdAndUserId(String id, String userId);
 
     boolean existsByIdAndUserId(String airdropId, String id);
+
+    long countByUserIdAndStatus(String userId, String status);
+    long countByUserId(String userId);
 }

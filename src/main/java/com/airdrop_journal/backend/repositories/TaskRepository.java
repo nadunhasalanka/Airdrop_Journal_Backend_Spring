@@ -15,4 +15,9 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     void deleteByAirdropIdAndUserId(String airdropId, String userId);
 
     boolean existsByIdAndUserId(String taskId, String id);
+
+    long countByUserId(String userId);
+    long countByUserIdAndCompleted(String userId, boolean completed);
+    long countByUserIdAndIsDaily(String userId, boolean isDaily);
+
 }

@@ -2,6 +2,7 @@ package com.airdrop_journal.backend.controllers;
 
 import com.airdrop_journal.backend.dtos.task.TaskRequest;
 import com.airdrop_journal.backend.dtos.task.TaskResponse;
+import com.airdrop_journal.backend.dtos.task.TaskStatsResponse;
 import com.airdrop_journal.backend.model.User;
 import com.airdrop_journal.backend.services.TaskService;
 import jakarta.validation.Valid;
@@ -57,5 +58,10 @@ public class TaskController {
     ) {
         taskService.deleteTask(id, currentUser);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<TaskStatsResponse> getTaskStats(@AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(taskService.getTaskStats(currentUser));
     }
 }

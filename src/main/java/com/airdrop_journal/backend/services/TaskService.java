@@ -2,6 +2,7 @@ package com.airdrop_journal.backend.services;
 
 import com.airdrop_journal.backend.dtos.task.TaskRequest;
 import com.airdrop_journal.backend.dtos.task.TaskResponse;
+import com.airdrop_journal.backend.dtos.task.TaskStatsResponse;
 import com.airdrop_journal.backend.mappers.TaskMapper;
 import com.airdrop_journal.backend.model.Task;
 import com.airdrop_journal.backend.model.User;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,4 +82,40 @@ public class TaskService {
         }
         taskRepository.deleteById(taskId);
     }
+
+    public TaskStatsResponse getTaskStats(User currentUser) {
+        String userId = currentUser.getId();
+
+        // 1. Get the simple counts directly from the repository
+        long totalTasks = taskRepository.countByUserId(userId);
+        long completedTasks = taskRepository.countByUserIdAndCompleted(userId, true);
+        long pendingTasks = taskRepository.countByUserIdAndCompleted(userId, false);
+        long dailyTasks = taskRepository.countByUserIdAndIsDaily(userId, true);
+        int completionPercentage = (totalTasks > 0) ? (int) Math.round((double) completedTasks / totalTasks * 100) : 0;
+
+        // 2. For grouped counts, fetch all tasks and process them in memory.
+        // This is efficient for a reasonable number of tasks per user.
+        List<Task> allUserTasks = taskRepository.findByUserId(userId);
+
+        // Group by category and count
+        Map<String, Long> byCategory = allUserTasks.stream()
+                .filter(task -> task.getCategory() != null)
+                .collect(Collectors.groupingBy(task -> task.getCategory().name(), Collectors.counting()));
+
+        // Group by project and count
+        Map<String, Long> byProject = allUserTasks.stream()
+                .filter(task -> task.getProject() != null && !task.getProject().isEmpty())
+                .collect(Collectors.groupingBy(Task::getProject, Collectors.counting()));
+
+        // 3. Build the response DTO
+        return TaskStatsResponse.builder()
+                .total(totalTasks)
+                .completed(completedTasks)
+                .pending(pendingTasks)
+                .daily(dailyTasks)
+                .completionPercentage(completionPercentage)
+                .byCategory(byCategory)
+                .byProject(byProject)
+                .build();
+}
 }
